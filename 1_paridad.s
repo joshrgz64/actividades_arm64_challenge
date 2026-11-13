@@ -5,11 +5,11 @@
 // Fecha: 12 - Nov - 2026
 // Asciinema (si existe): https://asciinema.org/a/mmQSbRbVDp9rYDZN
 
-// Solución en alto nivel: https://raw.githubusercontent.com/joshrgz64/actividades_arm64_challenge/refs/heads/main/1_paridad.py
+// Solución en alto nivel: https://raw.githubusercontent.com/joshrgz64/activida>
 
 .section .data
-.align 2
-    num: .word 8 // editar este numero segun el que se quiera 
+.align 3
+    num: .xword -7 // editar este numero segun el que se quiera 
 .section .rodata
     msg_impar: .asciz "1 (es impar)\n"
     msg_par: .asciz "0 (es par)\n"
@@ -20,11 +20,13 @@ paridad:
     // obtenemos el numero de la seccion de datos ademas del divisor
     adrp x0, num // x0 - Numero a probar
     add x0, x0, :lo12:num
-    ldrsw x1, [x0]
+    ldr x1, [x0]
 
     // Realizamos una operacion de modulo
     and w1, w1, #1
     cbnz w1, salida_impar
+    
+    b salida_impar
 
 salida_par:
     mov x0, #1
@@ -47,5 +49,5 @@ fin:
     mov x0, #0
     mov x8, #93
     svc #0
-
+    
 // Reflexión personal: Fue mas facil de traducir el programa en python a ensamblador en este caso, el hecho que no esté limitado a valores de 8 bits me ayuda bastante, es lo increible de la tecnologia que ha sobrepasado sus propios limites

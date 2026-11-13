@@ -7,31 +7,48 @@
 
 // Solución en alto nivel:
 
-.text
 
-.data
-    num: 8 // editar este numero segun el que se quiera 
+.section .data
+.align 2
+    num: .word 8 // editar este numero segun el que se quiera 
+.section .rodata
+    msg_impar: .asciz "1 (es impar)\n"
+    msg_par: .asciz "0 (es par)\n"
 
+.section .text
 .global paridad
 paridad:
     // obtenemos el numero de la seccion de datos ademas del divisor
-    mov x0, num // x0 - Numero a probar
-    mov x1, #0 // x1 - Resultado de residuo 
-    mov x2, #2 // x2 - divisor
+    adrp x0, num // x0 - Numero a probar
+    add x0, x0, :lo12:num
+    ldr w0, [x0]
 
     // Realizamos una operacion de modulo
-    udiv x1, x0, x2
+    and w1, w0, #1
     cmp x1, #0
-    b.ne salidaPar
+    b.ne .salidaPar
+    cbnz w1, salida_par
 
-salidaImpar:
-    .asciz "1 (es impar)"
+salida_par:
+    mov x0, #1
+    adrp x1, msg_par
+    add x1, x1, :lo12:msg_par
+    mov x2, #11
+    mov x8, #64
+    svc #0
+    b fin
+
+salida_impar:
+    mov x0, #1
+    adrp x1, msg_impar
+    add x1, x1, :lo12:msg_impar
+    mov x2, #13
+    mov x8, #64
+    svc #0
+
+fin:
+    mov x0, #0
     mov x8, #93
-
-salidaPar:
-    .asciz "0 (es par)"
-    mov x8, #93
-
-
+    svc #0
 
 // Reflexión personal:

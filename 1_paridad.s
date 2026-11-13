@@ -24,7 +24,7 @@ paridad:
 
     // Realizamos una operacion de modulo
     and w1, w1, #1
-    cbnz w1, salida_par
+    cbnz w1, salida_impar
 
 salida_par:
     mov x0, #1

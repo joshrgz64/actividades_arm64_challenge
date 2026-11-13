@@ -3,10 +3,9 @@
 // Asignatura: Lenguajes de Interfaz
 // Ejercicio: Paridad
 // Fecha: 12 - Nov - 2026
-// Asciinema (si existe):
+// Asciinema (si existe): https://asciinema.org/a/mmQSbRbVDp9rYDZN
 
-// Solución en alto nivel:
-
+// Solución en alto nivel: https://raw.githubusercontent.com/joshrgz64/actividades_arm64_challenge/refs/heads/main/1_paridad.py
 
 .section .data
 .align 2
@@ -16,15 +15,15 @@
     msg_par: .asciz "0 (es par)\n"
 
 .section .text
-.global _start
-_start:
+.global paridad
+paridad:
     // obtenemos el numero de la seccion de datos ademas del divisor
     adrp x0, num // x0 - Numero a probar
     add x0, x0, :lo12:num
     ldrsw x1, [x0]
 
     // Realizamos una operacion de modulo
-    and x1, x0, #1
+    and w1, w1, #1
     cbnz w1, salida_par
 
 salida_par:
@@ -49,4 +48,4 @@ fin:
     mov x8, #93
     svc #0
 
-// Reflexión personal:
+// Reflexión personal: Fue mas facil de traducir el programa en python a ensamblador en este caso, el hecho que no esté limitado a valores de 8 bits me ayuda bastante, es lo increible de la tecnologia que ha sobrepasado sus propios limites

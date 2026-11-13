@@ -16,17 +16,15 @@
     msg_par: .asciz "0 (es par)\n"
 
 .section .text
-.global paridad
-paridad:
+.global _start
+_start:
     // obtenemos el numero de la seccion de datos ademas del divisor
     adrp x0, num // x0 - Numero a probar
     add x0, x0, :lo12:num
-    ldr w0, [x0]
+    ldrsw x1, [x0]
 
     // Realizamos una operacion de modulo
-    and w1, w0, #1
-    cmp x1, #0
-    b.ne .salidaPar
+    and x1, x0, #1
     cbnz w1, salida_par
 
 salida_par:
